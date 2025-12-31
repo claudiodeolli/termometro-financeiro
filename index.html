@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Termômetro Financeiro</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <h1>Termômetro Financeiro</h1>
+        <p>Controle rápido, minimalista e direto ao ponto.</p>
+      </div>
+      <div class="year-controls">
+        <label>
+          Ano atual
+          <select id="yearSelect"></select>
+        </label>
+        <button id="addYearBtn" class="ghost">Adicionar ano</button>
+      </div>
+    </header>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="ano" role="tab">Ano</button>
+      <button class="tab" data-tab="economia" role="tab">Economia</button>
+      <button class="tab" data-tab="metas" role="tab">Metas</button>
+    </nav>
+
+    <main>
+      <section id="tab-ano" class="tab-panel active" role="tabpanel">
+        <div class="month-bar">
+          <button id="prevMonth" class="ghost" aria-label="Mês anterior">◀</button>
+          <label>
+            Mês
+            <select id="monthSelect"></select>
+          </label>
+          <button id="nextMonth" class="ghost" aria-label="Próximo mês">▶</button>
+          <label class="toggle">
+            <input type="checkbox" id="planilhaMode" />
+            Modo Planilha (31 dias)
+          </label>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="data-table" id="monthTable">
+            <thead>
+              <tr>
+                <th>Dia</th>
+                <th>Entrada</th>
+                <th>Saída</th>
+                <th>Diário</th>
+                <th>Saldo</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <aside class="month-summary" id="monthSummary"></aside>
+
+        <div class="export-bar">
+          <button id="exportJson" class="ghost">Backup JSON</button>
+          <label class="ghost file-label">
+            Importar JSON
+            <input type="file" id="importJson" accept="application/json" />
+          </label>
+          <button id="exportCsv" class="ghost">Exportar CSV (Ano)</button>
+          <label class="ghost file-label">
+            Importar CSV
+            <input type="file" id="importCsv" accept="text/csv" />
+          </label>
+        </div>
+      </section>
+
+      <section id="tab-economia" class="tab-panel" role="tabpanel">
+        <div class="economia-header">
+          <div>
+            <h2>Economia</h2>
+            <p>Preencha apenas o valor de economia. O resto é automático.</p>
+          </div>
+          <div class="compare-controls">
+            <label>
+              Ano A
+              <select id="economiaYearA"></select>
+            </label>
+            <label>
+              Ano B (opcional)
+              <select id="economiaYearB"></select>
+            </label>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="data-table" id="economiaTable"></table>
+        </div>
+      </section>
+
+      <section id="tab-metas" class="tab-panel" role="tabpanel">
+        <div class="metas-header">
+          <div>
+            <h2>Metas</h2>
+            <p>Checklist simples por categoria.</p>
+          </div>
+          <button id="addCategory" class="ghost">Nova categoria</button>
+        </div>
+        <div id="goalCategories" class="goal-grid"></div>
+      </section>
+    </main>
+
+    <dialog id="yearDialog">
+      <form method="dialog" class="dialog-form">
+        <h3>Novo ano</h3>
+        <label>
+          Digite o ano
+          <input type="number" id="newYearInput" min="2000" max="2100" required />
+        </label>
+        <div class="dialog-actions">
+          <button value="cancel" class="ghost">Cancelar</button>
+          <button id="confirmYear">Salvar</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="categoryDialog">
+      <form method="dialog" class="dialog-form">
+        <h3>Nova categoria</h3>
+        <label>
+          Nome
+          <input type="text" id="newCategoryInput" required />
+        </label>
+        <div class="dialog-actions">
+          <button value="cancel" class="ghost">Cancelar</button>
+          <button id="confirmCategory">Salvar</button>
+        </div>
+      </form>
+    </dialog>
+
+    <template id="goalCategoryTemplate">
+      <section class="goal-category">
+        <header>
+          <input class="category-name" />
+          <button class="ghost remove-category" title="Remover categoria">✕</button>
+        </header>
+        <ul class="goal-list"></ul>
+        <div class="goal-add">
+          <input class="new-goal-input" placeholder="Nova meta..." />
+          <button class="ghost add-goal">Adicionar</button>
+        </div>
+      </section>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
